@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply text-dark;
+  }
+}
+@layer components {
+  .shadow {
+    box-shadow: 0 1px 3px -2px rgba(0, 0, 0, 0.12),
+      0 1px 2px rgba(0, 0, 0, 0.24);
+  }
+  .pagination {
+    @apply text-grayBlue flex items-center justify-center size-[1.9rem] rounded-full border-2 border-grayBlue border-solid cursor-pointer;
+
+    &.active {
+      @apply text-white bg-secondary border-secondary;
+    }
+  }
+}
