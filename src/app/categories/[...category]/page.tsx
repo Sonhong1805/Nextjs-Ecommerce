@@ -7,7 +7,7 @@ import { GoStarFill, GoHeart, GoChevronRight } from "react-icons/go";
 const Category = ({
   params: { category },
 }: {
-  params: { category: string };
+  params: { category: string[] };
 }) => {
   return (
     <main>
@@ -18,7 +18,7 @@ const Category = ({
           </Link>
           <span className="mx-1 opacity-35">/</span>
           <Link href={"/"} className="text-[#222] font-bold">
-            {category}
+            {category[0]}
           </Link>
         </div>
         <div className="flex items-center">

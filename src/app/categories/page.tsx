@@ -4,7 +4,7 @@ import React from "react";
 import { PiMagnifyingGlassLight } from "react-icons/pi";
 import { GoStarFill, GoHeart, GoChevronRight } from "react-icons/go";
 
-const Category = () => {
+const Categories = () => {
   return (
     <main>
       <section className="container pt-5 flex justify-between items-center">
@@ -297,4 +297,4 @@ const Category = () => {
   );
 };
 
-export default Category;
+export default Categories;
