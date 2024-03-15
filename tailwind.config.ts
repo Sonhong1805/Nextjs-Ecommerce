@@ -10,27 +10,21 @@ const config: Config = {
     extend: {
       container: {
         center: true,
-        padding: "0.9rem",
+        padding: "1.5rem",
       },
       colors: {
         primary: "#183544",
         secondary: "#ff531d",
         gray: "rgba(102,102,102,0.7)",
-        grayBlue: "#334862",
+        gray2: "#ddd",
+        gray3: "rgba(102,102,102,0.85)",
+        gray4: "#a8b2b7",
+        gray5: "#334862",
         dark: "#3A3A3A",
         dark2: "rgba(0,0,0,0.54)",
+        dark3: "#222",
+        dark4: "#11252F",
         yellow: "#faca51",
-      },
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      },
-      screens: {
-        sm: "640px",
-        md: "768px",
-        lg: "1024px",
-        xl: "1200px",
       },
     },
   },

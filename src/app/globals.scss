@@ -3,17 +3,60 @@
 @tailwind utilities;
 
 @layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    font-size: 62.5%;
+  }
   body {
     @apply text-dark;
   }
 }
 @layer components {
+  .container {
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+    max-width: 1200px;
+  }
+
   .shadow {
     box-shadow: 0 1px 3px -2px rgba(0, 0, 0, 0.12),
       0 1px 2px rgba(0, 0, 0, 0.24);
+
+    &2 {
+      box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.15);
+    }
   }
+
+  .submenu {
+    @apply absolute bg-white top-full py-[2rem] shadow2 -left-3.5 min-w-[26rem] opacity-0 invisible group-hover:opacity-100 group-hover:visible duration-[0.2s];
+
+    .submenu-item {
+      @apply py-[1rem] px-[2rem];
+
+      a {
+        @apply text-gray3 text-[1.4rem];
+      }
+
+      &:hover {
+        @apply bg-[rgba(0,0,0,0.03)];
+      }
+
+      &:hover a {
+        @apply text-[rgba(17,17,17,0.85)];
+      }
+    }
+  }
+
   .pagination {
-    @apply text-grayBlue flex items-center justify-center size-[1.9rem] rounded-full border-2 border-grayBlue border-solid cursor-pointer;
+    @apply text-gray5 flex items-center justify-center size-[2.945rem] text-[1.6rem] rounded-full border-2 border-gray5 border-solid cursor-pointer;
 
     &.active {
       @apply text-white bg-secondary border-secondary;
