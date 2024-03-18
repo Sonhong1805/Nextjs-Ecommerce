@@ -12,28 +12,28 @@ const Header = () => {
           <li className="mx-[0.7rem]">
             <Link
               href="/"
-              className="text-white text-gray4 text-[1.2rem] opacity-50 hover:opacity-100 py-[0.7rem] block uppercase">
+              className="text-white text-[1.2rem] opacity-50 hover:opacity-100 py-[0.7rem] block uppercase">
               Chăm sóc khách hàng
             </Link>
           </li>
           <li className="mx-[0.7rem]">
             <Link
               href="/"
-              className="text-white text-gray4 text-[1.2rem] opacity-50 hover:opacity-100 py-[0.7rem] block uppercase">
+              className="text-white text-[1.2rem] opacity-50 hover:opacity-100 py-[0.7rem] block uppercase">
               Kiểm tra đơn hàng
             </Link>
           </li>
           <li className="mx-[0.7rem]">
             <Link
-              href="/"
-              className="text-white text-gray4 text-[1.2rem] opacity-50 hover:opacity-100 py-[0.7rem] block uppercase">
+              href="/login"
+              className="text-white text-[1.2rem] opacity-50 hover:opacity-100 py-[0.7rem] block uppercase">
               Đăng nhập
             </Link>
           </li>
           <li className="">
             <Link
-              href="/"
-              className="text-white text-gray4 text-[1.2rem] opacity-50 hover:opacity-100 py-[0.7rem] block uppercase">
+              href="/signup"
+              className="text-white text-[1.2rem] opacity-50 hover:opacity-100 py-[0.7rem] block uppercase">
               Đăng ký
             </Link>
           </li>
