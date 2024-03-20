@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["mauweb.monamedia.net"],
+    domains: ["mauweb.monamedia.net", "swiperjs.com", "cdn.sforum.vn"],
   },
 };
 

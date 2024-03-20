@@ -1,14 +1,25 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import { PiMagnifyingGlassLight } from "react-icons/pi";
 import { GoStarFill, GoHeart, GoChevronRight, GoDash } from "react-icons/go";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { filtersCategories } from "@/lib/features/filters/filtersThunk";
 
 const Category = ({
   params: { category },
 }: {
   params: { category: string[] };
 }) => {
+  const dispatch = useAppDispatch();
+  const objFilter = useAppSelector((state) => state.filters.objFilter);
+  console.log(objFilter?.data);
+
+  useEffect(() => {
+    dispatch(filtersCategories(category[0]));
+  }, [dispatch, category]);
+
   return (
     <main>
       <section className="container pt-[2rem] flex justify-between items-center">
