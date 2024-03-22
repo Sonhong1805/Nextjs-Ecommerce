@@ -30,7 +30,11 @@ const Navbar = () => {
               <ul className="submenu z-[999]">
                 {category.children.map((child) => (
                   <li className="submenu-item" key={child.id}>
-                    <Link href={`/categories/${child.slug}`}>{child.name}</Link>
+                    <Link
+                      href={`/categories/${child.slug}`}
+                      className="w-full block">
+                      {child.name}
+                    </Link>
                   </li>
                 ))}
               </ul>

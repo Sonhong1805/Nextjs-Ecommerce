@@ -6,6 +6,9 @@ import { PiMagnifyingGlassLight } from "react-icons/pi";
 import { GoStarFill, GoHeart, GoChevronRight, GoDash } from "react-icons/go";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { filtersCategories } from "@/lib/features/filters/filtersThunk";
+import { getFilters } from "@/helpers/getFilters";
+import { TCategories } from "@/types/categories";
+import { TFilters } from "@/types/filters";
 
 const Category = ({
   params: { category },
@@ -14,7 +17,20 @@ const Category = ({
 }) => {
   const dispatch = useAppDispatch();
   const objFilter = useAppSelector((state) => state.filters.objFilter);
-  console.log(objFilter?.data);
+  const filterData = objFilter?.data;
+
+  const categoryData = useAppSelector((state) => state.categories.categoryList);
+  const categoryList = categoryData?.data?.categories;
+  const categoryItem = categoryList?.find((categoryItem: TCategories) => {
+    if (categoryItem.slug !== category[0]) {
+      return categoryItem.children.some((child) => child.slug === category[0]);
+    }
+    return categoryItem.slug === category[0];
+  });
+
+  const categoryChild = categoryItem?.children.find(
+    (child: any) => child.slug === category[0]
+  );
 
   useEffect(() => {
     dispatch(filtersCategories(category[0]));
@@ -32,9 +48,23 @@ const Category = ({
             CỬA HÀNG
           </Link>
           <span className="mx-2 opacity-35 text-[1.6rem]">/</span>
-          <Link href={"/"} className="text-dark3 font-bold text-[1.6rem]">
-            {category[0]}
-          </Link>
+          {categoryItem && (
+            <Link
+              href={`/categories/${categoryItem.slug}`}
+              className={` ${
+                categoryChild ? "text-gray" : "text-dark3 font-bold"
+              } text-[1.6rem] uppercase`}>
+              {categoryItem?.name}
+            </Link>
+          )}
+          {categoryChild && (
+            <>
+              <span className="mx-2 opacity-35 text-[1.6rem]">/</span>
+              <span className="text-dark3 font-bold text-[1.6rem]">
+                {categoryChild?.name}
+              </span>
+            </>
+          )}
         </div>
         <div className="flex items-center">
           <p className="mr-[1.4rem] text-[1.4rem]">Xem tất cả 5 kết quả</p>
@@ -61,224 +91,9 @@ const Category = ({
             <PiMagnifyingGlassLight className="absolute top-2/4 right-2 translate-y-[-50%] cursor-pointer text-[2.4rem]" />
           </div>
           <div>
-            <h4 className="font-bold text-[1.6rem] flex justify-between mb-3">
-              <span>Danh mục sản phẩm</span>
-              <button>+</button>
-            </h4>
-            <div>
-              <ul className="pb-1 mb-2">
-                <li>
-                  <input
-                    type="checkbox"
-                    className="mt-[0.3rem] mr-4 mb-[1.6rem] ml-[0.4rem]"
-                  />
-                  <label
-                    htmlFor=""
-                    className="py-16 mb-2 ml-[0.7rem] text-[1.26rem] text-[#222] font-bold">
-                    Ăn vặt & Bánh kẹo (1)
-                  </label>
-                </li>
-                <li>
-                  <input
-                    type="checkbox"
-                    className="mt-[0.3rem] mr-4 mb-[1.6rem] ml-[0.4rem]"
-                  />
-                  <label
-                    htmlFor=""
-                    className="py-16 mb-2 ml-[0.7rem] text-[1.26rem] text-[#222] font-bold">
-                    Ăn vặt & Bánh kẹo (1)
-                  </label>
-                </li>
-                <li>
-                  <input
-                    type="checkbox"
-                    className="mt-[0.3rem] mr-4 mb-[1.6rem] ml-[0.4rem]"
-                  />
-                  <label
-                    htmlFor=""
-                    className="py-16 mb-2 ml-[0.7rem] text-[1.26rem] text-[#222] font-bold">
-                    Ăn vặt & Bánh kẹo (1)
-                  </label>
-                </li>
-                <li>
-                  <input
-                    type="checkbox"
-                    className="mt-[0.3rem] mr-4 mb-[1.6rem] ml-[0.4rem]"
-                  />
-                  <label
-                    htmlFor=""
-                    className="py-16 mb-2 ml-[0.7rem] text-[1.26rem] text-[#222] font-bold">
-                    Ăn vặt & Bánh kẹo (1)
-                  </label>
-                </li>
-              </ul>
-            </div>
-            <h4 className="font-bold text-[1.6rem] mb-3">Lọc theo giá</h4>
-            <div>
-              <div className="flex items-center justify-between">
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Tối thiểu"
-                    className="p-2 w-[11rem] text-[1.4rem] border border-gray2 border-solid "
-                  />
-                </div>
-                <GoDash className="mx-4" />
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Tối đa"
-                    className="p-2 w-[11rem] text-[1.4rem] border border-gray2 border-solid "
-                  />
-                </div>
-              </div>
-              <button className="px-[1.4rem] py-1 bg-secondary text-white font-bold mt-4 mb-8 text-[1.4rem]">
-                Lọc
-              </button>
-            </div>
-            <h4 className="font-bold text-[1.6rem] mb-3">Lọc theo thể tích</h4>
-            <ul className="pb-1 mb-2">
-              <li>
-                <input
-                  type="checkbox"
-                  className="mt-[0.3rem] mr-4 mb-[1.6rem] ml-[0.4rem]"
-                />
-                <label
-                  htmlFor=""
-                  className="py-16 mb-2 ml-[0.7rem] text-[1.26rem] text-[#222] font-bold">
-                  &#x2265; 10ml
-                </label>
-              </li>
-              <li>
-                <input
-                  type="checkbox"
-                  className="mt-[0.3rem] mr-4 mb-[1.6rem] ml-[0.4rem]"
-                />
-                <label
-                  htmlFor=""
-                  className="py-16 mb-2 ml-[0.7rem] text-[1.26rem] text-[#222] font-bold">
-                  &#x2265; 20ml
-                </label>
-              </li>
-              <li>
-                <input
-                  type="checkbox"
-                  className="mt-[0.3rem] mr-4 mb-[1.6rem] ml-[0.4rem]"
-                />
-                <label
-                  htmlFor=""
-                  className="py-16 mb-2 ml-[0.7rem] text-[1.26rem] text-[#222] font-bold">
-                  &#x2265; 50ml
-                </label>
-              </li>
-              <li>
-                <input
-                  type="checkbox"
-                  className="mt-[0.3rem] mr-4 mb-[1.6rem] ml-[0.4rem]"
-                />
-                <label
-                  htmlFor=""
-                  className="py-16 mb-2 ml-[0.7rem] text-[1.26rem] text-[#222] font-bold">
-                  &#x2265; 100ml
-                </label>
-              </li>
-            </ul>
-            <h4 className="font-bold text-[1.6rem] mb-3">
-              Lọc theo khối lượng
-            </h4>
-            <ul className="pb-1 mb-2">
-              <li>
-                <input
-                  type="checkbox"
-                  className="mt-[0.3rem] mr-4 mb-[1.6rem] ml-[0.4rem]"
-                />
-                <label
-                  htmlFor=""
-                  className="py-16 mb-2 ml-[0.7rem] text-[1.26rem] text-[#222] font-bold">
-                  &#x2265; 30ml
-                </label>
-              </li>
-              <li>
-                <input
-                  type="checkbox"
-                  className="mt-[0.3rem] mr-4 mb-[1.6rem] ml-[0.4rem]"
-                />
-                <label
-                  htmlFor=""
-                  className="py-16 mb-2 ml-[0.7rem] text-[1.26rem] text-[#222] font-bold">
-                  &#x2265; 60ml
-                </label>
-              </li>
-              <li>
-                <input
-                  type="checkbox"
-                  className="mt-[0.3rem] mr-4 mb-[1.6rem] ml-[0.4rem]"
-                />
-                <label
-                  htmlFor=""
-                  className="py-16 mb-2 ml-[0.7rem] text-[1.26rem] text-[#222] font-bold">
-                  &#x2265; 90ml
-                </label>
-              </li>
-              <li>
-                <input
-                  type="checkbox"
-                  className="mt-[0.3rem] mr-4 mb-[1.6rem] ml-[0.4rem]"
-                />
-                <label
-                  htmlFor=""
-                  className="py-16 mb-2 ml-[0.7rem] text-[1.26rem] text-[#222] font-bold">
-                  &#x2265; 120ml
-                </label>
-              </li>
-            </ul>
-            <h4 className="font-bold text-[1.6rem] mb-3">Xuất xứ</h4>
-            <ul className="pb-1 mb-2">
-              <li>
-                <input
-                  type="checkbox"
-                  className="mt-[0.3rem] mr-4 mb-[1.6rem] ml-[0.4rem]"
-                />
-                <label
-                  htmlFor=""
-                  className="py-16 mb-2 ml-[0.7rem] text-[1.26rem] text-[#222] font-bold">
-                  Hà Nội
-                </label>
-              </li>
-              <li>
-                <input
-                  type="checkbox"
-                  className="mt-[0.3rem] mr-4 mb-[1.6rem] ml-[0.4rem]"
-                />
-                <label
-                  htmlFor=""
-                  className="py-16 mb-2 ml-[0.7rem] text-[1.26rem] text-[#222] font-bold">
-                  Hồ Chí Minh
-                </label>
-              </li>
-              <li>
-                <input
-                  type="checkbox"
-                  className="mt-[0.3rem] mr-4 mb-[1.6rem] ml-[0.4rem]"
-                />
-                <label
-                  htmlFor=""
-                  className="py-16 mb-2 ml-[0.7rem] text-[1.26rem] text-[#222] font-bold">
-                  Đà Nẵng
-                </label>
-              </li>
-              <li>
-                <input
-                  type="checkbox"
-                  className="mt-[0.3rem] mr-4 mb-[1.6rem] ml-[0.4rem]"
-                />
-                <label
-                  htmlFor=""
-                  className="py-16 mb-2 ml-[0.7rem] text-[1.26rem] text-[#222] font-bold">
-                  Nước ngoài
-                </label>
-              </li>
-            </ul>
+            {filterData?.filterList.map((filterItem: any, index: number) => (
+              <div key={index}>{getFilters(filterItem?.id, filterItem)}</div>
+            ))}
           </div>
         </div>
         <div className="px-2 pb-[1.9rem] flex-1">

@@ -27,6 +27,7 @@ const config: Config = {
         dark3: "#222",
         dark4: "#11252F",
         yellow: "#faca51",
+        error: "#b20000",
       },
     },
   },
