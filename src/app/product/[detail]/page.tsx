@@ -57,9 +57,9 @@ const ProductDetail = ({
                       alt=""
                       width={372}
                       height={372}
-                      src={`https://swiperjs.com/demos/images/nature-${
+                      src={`/images/bach-hoa-online/tra-sua-${
                         index + 1
-                      }.jpg`}
+                      }.jpg_.webp`}
                     />
                   </SwiperSlide>
                 );
@@ -81,9 +81,9 @@ const ProductDetail = ({
                       alt=""
                       width={372}
                       height={372}
-                      src={`https://swiperjs.com/demos/images/nature-${
+                      src={`/images/bach-hoa-online/tra-sua-${
                         index + 1
-                      }.jpg`}
+                      }.jpg_.webp`}
                     />
                   </SwiperSlide>
                 );
@@ -97,30 +97,105 @@ const ProductDetail = ({
               </Link>
               <div className="text-gray text-[1.4rem] mx-[0.5rem]">/</div>
               <Link href="/" className="text-gray text-[1.4rem] ">
-                THỜI TRANG NỮ
+                CỬA HÀNG
+              </Link>
+              <div className="text-gray text-[1.4rem] mx-[0.5rem]">/</div>
+              <Link href="/" className="text-gray text-[1.4rem]">
+                BÁCH HOÁ ONLINE
               </Link>
               <div className="text-gray text-[1.4rem] mx-[0.5rem]">/</div>
               <Link href="/" className="text-gray text-[1.4rem] ">
-                ÁO
+                ĐỒ UỐNG
               </Link>
             </div>
-            <h2 className="text-[3.2rem] font-bold">Sản phẩm {detail}</h2>
+            <h2 className="text-[3.2rem] font-bold">
+              SET TRÀ SỮA TRÂN CHÂU CAO CẤP ĐẦY ĐỦ VỊ - SET TRÀ SỮA SIÊU TO
+              KHỔNG LỒ
+            </h2>
             <div className="h-[0.4rem] bg-[rgba(0,0,0,0.1)] my-[1.6rem] w-full max-w-[5rem]"></div>
             <div className="flex items-center justify-start text-[1.4rem]">
-              <GoStarFill className="text-secondary" />
-              <GoStarFill className="text-secondary" />
-              <GoStarFill className="text-secondary" />
-              <GoStarFill className="text-secondary" />
-              <GoStarFill className="text-secondary" />
+              {Array.from({ length: 5 }).map((_, index) => (
+                <GoStarFill key={index} className="text-yellow" />
+              ))}
             </div>
             <div className="my-[1rem]">
               <span className="text-[2.1rem] line-through text-gray mr-[1rem]">
                 290,000 ₫
               </span>
-              <strong className="text-[2.2rem] text-[#111]">145,000 ₫</strong>
+              <strong className="text-[2.2rem] text-[#111]">135,000 ₫</strong>
+            </div>
+            <div className="flex mb-[1rem]">
+              <div className="text-[1.4rem] text-gray mr-[1rem] min-w-[10rem]">
+                Phân loại
+              </div>
+              <div className="">
+                <div className="text-[1.4rem]">Phúc Long</div>
+                <div className="my-[1rem] flex gap-[0.8rem]">
+                  <div>
+                    <input type="radio" id="" name="type1" hidden />
+                    <label
+                      htmlFor=""
+                      className="border border-solid border-gray2 text-[1.2rem] min-w-[4.8rem] p-[0.8rem] cursor-pointer">
+                      Phúc Long
+                    </label>
+                  </div>
+                  <div>
+                    <input type="radio" id="" name="type1" hidden />
+                    <label
+                      htmlFor=""
+                      className="border border-solid border-gray2 text-[1.2rem] min-w-[4.8rem] p-[0.8rem] cursor-pointer">
+                      Thái xanh
+                    </label>
+                  </div>
+                  <div>
+                    <input type="radio" id="" name="type1" hidden />
+                    <label
+                      htmlFor=""
+                      className="border border-solid border-gray2 text-[1.2rem] min-w-[4.8rem] p-[0.8rem] cursor-pointer">
+                      Thái đỏ
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="flex mb-[1rem]">
+              <div className="text-[1.4rem] text-gray mr-[1rem] min-w-[10rem]">
+                Thể tích
+              </div>
+              <div>
+                <div className="text-[1.4rem]">Nhỏ (1-2 lít)</div>
+                <div className="my-[1rem] flex gap-[0.8rem]">
+                  <div>
+                    <input type="radio" id="" name="type2" hidden />
+                    <label
+                      htmlFor=""
+                      className="border border-solid border-gray2 text-[1.2rem] min-w-[4.8rem] p-[0.8rem] cursor-pointer">
+                      Nhỏ (1-2 lít)
+                    </label>
+                  </div>
+                  <div>
+                    <input type="radio" id="" name="type2" hidden />
+                    <label
+                      htmlFor=""
+                      className="border border-solid border-gray2 text-[1.2rem] min-w-[4.8rem] p-[0.8rem] cursor-pointer">
+                      Vừa (2.5-3 lít)
+                    </label>
+                  </div>
+                  <div>
+                    <input type="radio" id="" name="type2" hidden />
+                    <label
+                      htmlFor=""
+                      className="border border-solid border-gray2 text-[1.2rem] min-w-[4.8rem] p-[0.8rem] cursor-pointer">
+                      To (4-5 lít)
+                    </label>
+                  </div>
+                </div>
+              </div>
             </div>
             <div className="flex items-center">
-              <div className="text-[1.4rem] text-gray mr-[1rem]">Số lượng</div>
+              <div className="text-[1.4rem] text-gray mr-[1rem] min-w-[10rem]">
+                Số lượng
+              </div>
               <div className="flex">
                 <button
                   onClick={handleDecreaseQuantity}

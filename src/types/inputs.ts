@@ -10,3 +10,9 @@ interface IForgotPasswordInputs extends ILoginInputs {
 interface ISignUpInputs extends IForgotPasswordInputs {
   username: string;
 }
+
+interface IPaymentInputs {
+  username: string;
+  phoneNumber: string;
+  address: string;
+}

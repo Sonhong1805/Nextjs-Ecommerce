@@ -6,7 +6,7 @@ const initialState = {
 } as any;
 
 const filtersSlice = createSlice({
-  name: "filters",
+  name: "filtersCategory",
   initialState,
   reducers: {},
   extraReducers: (builder) => {

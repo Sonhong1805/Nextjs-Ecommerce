@@ -43,7 +43,7 @@ const Register = () => {
     resolver: zodResolver(schema),
   });
 
-  const onSubmit: SubmitHandler<ILoginInputs> = (data) => {
+  const onSubmit: SubmitHandler<ISignUpInputs> = (data) => {
     console.log(data);
     reset();
   };

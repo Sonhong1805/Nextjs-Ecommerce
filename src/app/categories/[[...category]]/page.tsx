@@ -5,10 +5,10 @@ import React, { useEffect } from "react";
 import { PiMagnifyingGlassLight } from "react-icons/pi";
 import { GoStarFill, GoHeart, GoChevronRight, GoDash } from "react-icons/go";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { filtersCategories } from "@/lib/features/filters/filtersThunk";
+import { filtersCategories } from "@/lib/features/filtersCategory/filtersThunk";
 import { getFilters } from "@/helpers/getFilters";
-import { TCategories } from "@/types/categories";
-import { TFilters } from "@/types/filters";
+import { TCategories, TCategoriesChild } from "@/types/categories";
+import { filtersProducts } from "@/lib/features/filtersProduct/filtersThunk";
 
 const Category = ({
   params: { category },
@@ -16,8 +16,15 @@ const Category = ({
   params: { category: string[] };
 }) => {
   const dispatch = useAppDispatch();
-  const objFilter = useAppSelector((state) => state.filters.objFilter);
-  const filterData = objFilter?.data;
+  const objFilterCategories = useAppSelector(
+    (state) => state.filtersCategory.objFilter
+  );
+  const filterCategoriesData = objFilterCategories?.data;
+
+  const objFilterProducts = useAppSelector(
+    (state) => state.filtersProducts.productList
+  );
+  const productList = objFilterProducts?.data?.productFilters;
 
   const categoryData = useAppSelector((state) => state.categories.categoryList);
   const categoryList = categoryData?.data?.categories;
@@ -29,12 +36,18 @@ const Category = ({
   });
 
   const categoryChild = categoryItem?.children.find(
-    (child: any) => child.slug === category[0]
+    (child: TCategoriesChild) => child.slug === category[0]
   );
 
   useEffect(() => {
     dispatch(filtersCategories(category[0]));
-  }, [dispatch, category]);
+    dispatch(
+      filtersProducts({
+        idParent: categoryItem?.id,
+        idChildren: categoryChild?.id,
+      })
+    );
+  }, [dispatch, category, categoryItem, categoryChild]);
 
   return (
     <main>
@@ -91,160 +104,75 @@ const Category = ({
             <PiMagnifyingGlassLight className="absolute top-2/4 right-2 translate-y-[-50%] cursor-pointer text-[2.4rem]" />
           </div>
           <div>
-            {filterData?.filterList.map((filterItem: any, index: number) => (
-              <div key={index}>{getFilters(filterItem?.id, filterItem)}</div>
-            ))}
+            {filterCategoriesData?.filterList.map(
+              (filterItem: any, index: number) => (
+                <div key={index}>
+                  {getFilters(filterItem?.id, filterItem, categoryChild)}
+                </div>
+              )
+            )}
           </div>
         </div>
         <div className="px-2 pb-[1.9rem] flex-1">
           <div className="grid grid-cols-4">
-            <div className="px-4 pb-[1.9rem] ">
-              <div className="shadow">
-                <Link href={"/"}>
-                  <Image
-                    src="https://mauweb.monamedia.net/lazada/wp-content/uploads/2017/10/Oganic-01-300x300.jpg"
-                    width={500}
-                    height={500}
-                    alt=""
-                  />
-                </Link>
-                <div className="p-4 pb-[1.7rem] text-center">
-                  <Link href={"/"} className="text-dark2 text-[1.4rem]">
-                    [Natierra] Việt quất, phúc bồn tử, dâu tây, táo xanh hữu cơ
-                    sấy lạnh 30g
-                  </Link>
-                  <div className="text-secondary text-[1.4rem] font-bold">
-                    170,000 ₫
-                  </div>
-                  <div className="flex items-center justify-between flex-wrap text-[0.6rem] gap-2 mt-2">
-                    <p className=" text-[1.2rem]">Đã bán 150</p>
-                    <div className="flex items-center justify-center text-[1.2rem]">
-                      <GoStarFill className="text-yellow" />
-                      <GoStarFill className="text-yellow" />
-                      <GoStarFill className="text-yellow" />
-                      <GoStarFill className="text-yellow" />
-                      <GoStarFill className="text-yellow" /> (10)
+            {productList?.map((product: TProduct) => {
+              const price = Math.round(
+                product.price - (product.price * product.discount) / 100
+              );
+              const priceFormatted = new Intl.NumberFormat("vi-VN", {
+                style: "currency",
+                currency: "VND",
+              }).format(price);
+              const priceRoot = new Intl.NumberFormat("vi-VN").format(
+                product.price
+              );
+              return (
+                <div className="px-4 pb-[1.9rem]" key={product.id}>
+                  <div className="shadow">
+                    <Link href={"/"}>
+                      <Image
+                        src={product.images[0]}
+                        width={500}
+                        height={500}
+                        alt=""
+                        priority={true}
+                      />
+                    </Link>
+                    <div className="p-4 pb-[1.7rem] text-center">
+                      <Link
+                        href={"/"}
+                        className="text-dark2 text-[1.4rem] line-clamp-2">
+                        {product.name}
+                      </Link>
+                      <div className="text-secondary text-[1.4rem] font-bold">
+                        {priceFormatted}
+                      </div>
+                      {product.discount !== 0 && (
+                        <div className="flex justify-between text-dark2 text-[1.2rem]">
+                          <span className="line-through">{priceRoot} ₫</span>
+                          <span>-{product.discount}% off</span>
+                        </div>
+                      )}
+                      <div className="flex items-center justify-between flex-wrap text-[0.6rem] gap-2 mt-2">
+                        <p className=" text-[1.2rem]">Đã bán {product.sold}</p>
+                        <div className="flex items-center justify-center text-[1.2rem]">
+                          {Array.from({ length: 5 }).map((_, index) => (
+                            <GoStarFill key={index} className="text-yellow" />
+                          ))}
+                          ({product.evaluates.length})
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between mt-2">
+                        <p className="text-[1.2rem] text-end">
+                          {product.address.name}
+                        </p>
+                        <GoHeart className="text-[1.6rem]" />
+                      </div>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between mt-2">
-                    <p className="text-[1.2rem] text-end">Hồ Chí Minh</p>
-                    <GoHeart className="text-[1.6rem]" />
-                  </div>
                 </div>
-              </div>
-            </div>
-            <div className="px-4 pb-[1.9rem] ">
-              <div className="shadow">
-                <Link href={"/"}>
-                  <Image
-                    src="https://mauweb.monamedia.net/lazada/wp-content/uploads/2017/10/AoSomiCaroNu-01-300x300.jpg"
-                    width={500}
-                    height={500}
-                    alt=""
-                  />
-                </Link>
-                <div className="p-4 pb-[1.7rem] text-center">
-                  <Link href={"/"} className="text-dark2 text-[1.4rem]">
-                    Áo sơ mi caro kèm belt
-                  </Link>
-                  <div className="text-secondary text-[1.4rem] font-bold">
-                    290,000 ₫
-                  </div>
-                  <div className="flex justify-between text-dark2 text-[1.2rem]">
-                    <span className="line-through">290,000 ₫</span>
-                    <span>-50% off</span>
-                  </div>
-                  <div className="flex items-center justify-between flex-wrap text-[0.6rem] gap-2 mt-2">
-                    <p className=" text-[1.2rem]">Đã bán 100</p>
-                    <div className="flex items-center justify-center text-[1.2rem]">
-                      <GoStarFill className="text-yellow" />
-                      <GoStarFill className="text-yellow" />
-                      <GoStarFill className="text-yellow" />
-                      <GoStarFill className="text-yellow" />
-                      (20)
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between mt-2">
-                    <p className="text-[1.2rem] text-end">Hà Nội</p>
-                    <GoHeart className="text-[1.6rem]" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="px-4 pb-[1.9rem] ">
-              <div className="shadow">
-                <Link href={"/"}>
-                  <Image
-                    src="https://mauweb.monamedia.net/lazada/wp-content/uploads/2017/11/iphone8-01-300x300.jpg"
-                    width={500}
-                    height={500}
-                    alt=""
-                  />
-                </Link>
-                <div className="p-4 pb-[1.7rem] text-center">
-                  <Link href={"/"} className="text-dark2 text-[1.4rem]">
-                    Apple iPhone 8 256GB (Bạc) – Hàng nhập khẩu
-                  </Link>
-                  <div className="text-secondary text-[1.4rem] font-bold">
-                    50,000,000 ₫
-                  </div>
-                  <div className="flex justify-between text-dark2 text-[1.2rem]">
-                    <span className="line-through">20,304,000 ₫</span>
-                    <span>-59% off</span>
-                  </div>
-                  <div className="flex items-center justify-between flex-wrap text-[0.6rem] gap-2 mt-2">
-                    <p className=" text-[1.2rem]">Đã bán 200</p>
-                    <div className="flex items-center justify-center text-[1.2rem]">
-                      <GoStarFill className="text-yellow" />
-                      <GoStarFill className="text-yellow" />
-                      <GoStarFill className="text-yellow" />
-                      <GoStarFill className="text-yellow" />
-                      <GoStarFill className="text-yellow" />
-                      (50)
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between mt-2">
-                    <p className="text-[1.2rem] text-end">Hà Nội</p>
-                    <GoHeart className="text-[1.6rem]" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="px-4 pb-[1.9rem] ">
-              <div className="shadow">
-                <Link href={"/"}>
-                  <Image
-                    src="https://mauweb.monamedia.net/lazada/wp-content/uploads/2017/10/GiayNam-01-300x300.jpg"
-                    width={500}
-                    height={500}
-                    alt=""
-                  />
-                </Link>
-                <div className="p-4 pb-[1.7rem] text-center">
-                  <Link href={"/"} className="text-dark2 text-[1.4rem]">
-                    Giày Adidas Yeezy 350
-                  </Link>
-                  <div className="text-secondary text-[1.4rem] font-bold">
-                    600,000 ₫
-                  </div>
-                  <div className="flex items-center justify-between flex-wrap text-[0.6rem] gap-2 mt-2">
-                    <p className=" text-[1.2rem]">Đã bán 25</p>
-                    <div className="flex items-center justify-center text-[1.2rem]">
-                      <GoStarFill className="text-yellow" />
-                      <GoStarFill className="text-yellow" />
-                      <GoStarFill className="text-yellow" />
-                      <GoStarFill className="text-yellow" />
-                      <GoStarFill className="text-yellow" />
-                      (30)
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between mt-2">
-                    <p className="text-[1.2rem] text-end">Nước ngoài</p>
-                    <GoHeart className="text-[1.6rem]" />
-                  </div>
-                </div>
-              </div>
-            </div>
+              );
+            })}
           </div>
           <div>
             <ul className="flex justify-center items-center gap-2">

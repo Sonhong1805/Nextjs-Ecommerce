@@ -28,6 +28,7 @@ const config: Config = {
         dark4: "#11252F",
         yellow: "#faca51",
         error: "#b20000",
+        cyan: "#0094b6",
       },
     },
   },
