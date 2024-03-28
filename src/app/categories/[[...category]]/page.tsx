@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { PiMagnifyingGlassLight } from "react-icons/pi";
 import { GoStarFill, GoHeart, GoChevronRight, GoDash } from "react-icons/go";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -26,6 +26,10 @@ const Category = ({
   );
   const productList = objFilterProducts?.data?.productFilters;
 
+  const productsChecked = useAppSelector(
+    (state) => state.filtersProducts.productsChecked
+  );
+
   const categoryData = useAppSelector((state) => state.categories.categoryList);
   const categoryList = categoryData?.data?.categories;
   const categoryItem = categoryList?.find((categoryItem: TCategories) => {
@@ -48,6 +52,22 @@ const Category = ({
       })
     );
   }, [dispatch, category, categoryItem, categoryChild]);
+
+  const [productFilters, setProductFilters] = useState([]);
+
+  useEffect(() => {
+    const filteredProducts = productList?.filter((product: TProduct) => {
+      return productsChecked.some(
+        (item: string) => item === product.idCategoryChildren
+      );
+    });
+
+    if (filteredProducts && filteredProducts.length === 0) {
+      setProductFilters(productList);
+    } else {
+      setProductFilters(filteredProducts);
+    }
+  }, [productList, productsChecked]);
 
   return (
     <main>
@@ -115,7 +135,7 @@ const Category = ({
         </div>
         <div className="px-2 pb-[1.9rem] flex-1">
           <div className="grid grid-cols-4">
-            {productList?.map((product: TProduct) => {
+            {productFilters?.map((product: TProduct) => {
               const price = Math.round(
                 product.price - (product.price * product.discount) / 100
               );
@@ -127,9 +147,9 @@ const Category = ({
                 product.price
               );
               return (
-                <div className="px-4 pb-[1.9rem]" key={product.id}>
+                <div className="px-4 pb-[1.9rem] h-full" key={product.id}>
                   <div className="shadow">
-                    <Link href={"/"}>
+                    <Link href={"/product/" + product.slug}>
                       <Image
                         src={product.images[0]}
                         width={500}
@@ -140,8 +160,8 @@ const Category = ({
                     </Link>
                     <div className="p-4 pb-[1.7rem] text-center">
                       <Link
-                        href={"/"}
-                        className="text-dark2 text-[1.4rem] line-clamp-2">
+                        href={"/product/" + product.slug}
+                        className="text-dark2 text-[1.4rem] line-clamp-2 hover:text-secondary">
                         {product.name}
                       </Link>
                       <div className="text-secondary text-[1.4rem] font-bold">

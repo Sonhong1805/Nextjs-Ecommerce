@@ -1,15 +1,30 @@
+type TProductType = {
+  name: string;
+  slug: string;
+  value: [
+    {
+      name: string;
+      slug: string;
+    }
+  ];
+};
+
+type TProductEvaluate = {
+  id: number;
+  content: string;
+  name: string;
+  star: number;
+  time: string;
+};
+
 type TProduct = {
   id: number;
   name: string;
+  slug: string;
   images: string[];
   price: number;
   discount: number;
-  type: [
-    {
-      name: string;
-      value: string[];
-    }[]
-  ];
+  type: TProductType[];
   color: string[];
   address: {
     name: string;
@@ -19,13 +34,6 @@ type TProduct = {
   idCategoryChildren: string;
   sold: number;
   descriptions: string[];
-  evaluates: [
-    {
-      name: string;
-      star: number;
-      content: string;
-      time: string;
-    }[]
-  ];
+  evaluates: TProductEvaluate[];
   tags: string[];
 };

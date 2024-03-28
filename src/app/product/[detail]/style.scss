@@ -1,6 +1,5 @@
 .swiper {
   width: 100%;
-  height: 30rem;
   margin: auto;
 }
 
@@ -36,6 +35,7 @@
       width: 6rem;
       height: 6rem;
       object-fit: contain;
+      cursor: pointer;
     }
   }
 
@@ -44,12 +44,35 @@
   }
 }
 
-input[name="rate"] {
-  display: none;
+.swiper.swiper-initialized.swiper-horizontal.swiper-backface-hidden.mySwiper3 {
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  img {
+    width: 60rem;
+    height: 60rem;
+  }
+}
+
+.swiper-backface-hidden .swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 input[name="rate"]:hover ~ label,
 input[name="rate"]:checked ~ label {
   color: #ff531d;
-  cursor: pointer;
+}
+
+input[data-type1]:checked ~ label,
+input[data-type2]:checked ~ label {
+  border-color: #ff531d;
+}
+
+.noselect {
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none; /* Standard syntax */
 }

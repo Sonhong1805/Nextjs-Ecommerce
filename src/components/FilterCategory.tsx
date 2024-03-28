@@ -1,8 +1,9 @@
 "use client";
-import { useAppSelector } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { TCategoriesChild } from "@/types/categories";
-import { TFilters, TMetadata } from "@/types/filters";
+import { TMetadata } from "@/types/filters";
 import React, { useEffect, useRef, useState } from "react";
+import { setProductsChecked } from "../lib/features/filtersProduct/filtersSlice";
 
 interface FilterCategoryProps {
   name: string;
@@ -15,6 +16,7 @@ const FilterCategory = ({
   metadata,
   categoryChild,
 }: FilterCategoryProps) => {
+  const dispatch = useAppDispatch();
   const [isShowCategory, setIsShowCategory] = useState(true);
   const categoryListRef = useRef<HTMLDivElement>(null);
   const [categoryListHeight, setCategoryListHeight] = useState<
@@ -63,6 +65,7 @@ const FilterCategory = ({
                     id={item.slug}
                     disabled={quantity === 0}
                     className="mt-[0.3rem] mr-4 mb-[1.6rem] ml-[0.4rem]"
+                    onChange={() => dispatch(setProductsChecked(item.id))}
                   />
                   <label
                     htmlFor={item.slug}

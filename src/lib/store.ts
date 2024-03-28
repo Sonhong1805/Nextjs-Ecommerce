@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import categoryReducer from "./features/categories/categoriesSlice";
 import filterCategoryReducer from "./features/filtersCategory/filtersSlice";
 import filterProductReducer from "./features/filtersProduct/filtersSlice";
+import productDetailReducer from "./features/productDetail/productDetailSlice";
 
 export const makeStore = () => {
   return configureStore({
@@ -9,6 +10,7 @@ export const makeStore = () => {
       categories: categoryReducer,
       filtersCategory: filterCategoryReducer,
       filtersProducts: filterProductReducer,
+      productDetail: productDetailReducer,
     },
   });
 };
